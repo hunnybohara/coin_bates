@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+<location inheritInChildApplications="false">
+    <system.webServer>
+        <rewrite>
+            <rules>
+                <rule name="Redirect to WWW" stopProcessing="true">
+                    <match url=".*" />
+                    <conditions>
+                      <add input="{HTTP_HOST}" pattern="^coinbates.com$" />
+                    </conditions>
+                    <action type="Redirect" url="http://www.coinbates.com/new/{R:0}"
+                            redirectType="Permanent" />
+                </rule>
+                <rule name="Exclude direct access to webroot/*"
+                  stopProcessing="true">
+                    <match url="^webroot/(.*)$" ignoreCase="false" />
+                    <action type="None" />
+                </rule>
+                <rule name="Rewrite routed access to assets(img, css, files, js, favicon)"
+                  stopProcessing="true">
+                    <match url="^(img|css|files|images|assets|owl-carousel|fonts|js|favicon.ico)(.*)$" />
+                    <action type="Rewrite" url="webroot/{R:1}{R:2}"
+                      appendQueryString="true" />
+                </rule>
+                <rule name="Rewrite Rules for csimg"
+                  stopProcessing="true">
+                    <match url="^simg(.*)$" />
+                    <action type="Rewrite" url="webroot/cimg/img.php?src={R:1}"
+                      appendQueryString="true" />
+                </rule>
+                <rule name="Rewrite rule for style.css"
+                  stopProcessing="true">
+                    <match url="style.css" />
+                    <action type="Rewrite" url="webroot/style.css"
+                      appendQueryString="true" />
+                </rule>
+                <rule name="Rewrite requested file/folder to index.php"
+                  stopProcessing="true">
+                    <match url="^(.*)$" ignoreCase="false" />
+                    <action type="Rewrite" url="index.php"
+                      appendQueryString="true" />
+                </rule>
+            </rules>
+        </rewrite>
+        <staticContent>
+            <mimeMap fileExtension="woff" mimeType="application/font-woff" /> 
+            <mimeMap fileExtension="woff2" mimeType="application/font-woff" /> 
+        </staticContent>
+    </system.webServer>
+</location>
+</configuration>

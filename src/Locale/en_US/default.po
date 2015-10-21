@@ -1,0 +1,271 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Coinbates - Front App\n"
+"POT-Creation-Date: 2015-05-19 06:15+0530\n"
+"PO-Revision-Date: 2015-05-19 06:16+0530\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src\n"
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Controller/UsersController.php:133
+msgid "User Has Been Logged In successfully"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Controller/UsersController.php:138
+msgid "Please Provide Valid Username and password"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Controller/UsersController.php:177
+msgid "User Has Been Signuped successfully"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Controller/UsersController.php:184
+msgid "There is some error while Creating Your Account!!"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Model/Table/UsersTable.php:69
+msgid "Email Can not be Left Blank"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Model/Table/UsersTable.php:70
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Model/Table/UsersTable.php:96
+msgid "Password Can not Be left Blank"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Model/Table/UsersTable.php:85
+msgid "Name Can not be Left Blank"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Model/Table/UsersTable.php:86
+msgid "Email Can not Be left Blank"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Model/Table/UsersTable.php:89
+msgid "Please Enter Valid Email Address"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Model/Table/UsersTable.php:94
+msgid "E-mail Seems to be Already Registered With Us."
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Model/Table/UsersTable.php:99
+msgid "Password Needs to be Atleast 6 Character Long"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/header-home.ctp:21
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/header.ctp:21
+#, php-format
+msgid "Hi %s"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/header-home.ctp:22
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/header.ctp:22
+msgid "Log Out"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/header-home.ctp:24
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/header.ctp:24
+msgid "Log In"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/header-home.ctp:25
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/header.ctp:25
+msgid "Sign In"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/model/login.ctp:86
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/model/signup.ctp:84
+msgid "Email Address"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/model/login.ctp:95
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/model/signup.ctp:93
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:18
+msgid "Password"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/model/login.ctp:112
+msgid "Log in"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/model/signup.ctp:75
+msgid "Your Name"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/model/signup.ctp:101
+msgid "Bitcoin Address (Optional)"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/model/signup.ctp:107
+msgid "Sign Up"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/model/signup.ctp:121
+msgid "Registered Successfully !"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Element/model/signup.ctp:127
+msgid "Get Started Now"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Pages/home.ctp:89
+msgid "How it works ?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/add.ctp:2
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:230
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:2
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:20
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:2
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:50
+msgid "Actions"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/add.ctp:4
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:238
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:6
+msgid "List Users"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/add.ctp:5
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:239
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:5
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:8
+msgid "List Bitcoin Accounts"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/add.ctp:6
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:240
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:6
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:9
+msgid "New Bitcoin Account"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/add.ctp:12
+msgid "Add User"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/add.ctp:21
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:255
+msgid "Submit"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:40
+msgid "Log out"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:77
+msgid "Name"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:84
+msgid "Firstname Lastname"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:93
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:116
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:35
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:63
+msgid "Edit"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:94
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:117
+msgid "Save"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:107
+msgid "Email address of Yours"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:233
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:36
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:65
+msgid "Delete"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:235
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:36
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:5
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:65
+msgid "Are you sure you want to delete # {0}?"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/editprofile.ctp:246
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:4
+msgid "Edit User"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:4
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:7
+msgid "New User"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:34
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:61
+msgid "View"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:45
+msgid "previous"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/index.ctp:47
+msgid "next"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:5
+msgid "Delete User"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:16
+msgid "Email"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:20
+msgid "First Name"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:22
+msgid "Last Name"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:24
+msgid "Role"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:28
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:45
+msgid "Id"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:32
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:48
+msgid "Created"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:34
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:49
+msgid "Modified"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:41
+msgid "Related BitcoinAccounts"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:46
+msgid "User Id"
+msgstr ""
+
+#: /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/src/Template/Users/view.ctp:47
+msgid "Wallet Address"
+msgstr ""

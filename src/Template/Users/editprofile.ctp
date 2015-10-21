@@ -1,0 +1,312 @@
+<?php $this->append('script'); ?>
+<script type="text/javascript">
+    jQuery().ready(function(){
+        jQuery('.edit-front,.save-btn,.loading').hide();
+        
+        jQuery('.user-info-block-form .display-btn').click(function(){
+            parentCt = jQuery(this).closest('.user-info-block-form').first();
+            parentCt.find('.display-front').hide();
+            parentCt.find('.edit-front').show();
+            parentCt.find('.save-btn').show();
+            jQuery(this).hide();
+        });
+        
+        jQuery('.user-info-block-form .cancel-btn').click(function(){
+            parentCt = jQuery(this).closest('.user-info-block-form').first();
+            parentCt.find('.display-front').show();
+            parentCt.find('.display-btn').show()
+            parentCt.find('.edit-front').hide();
+            parentCt.find('.save-btn').hide(); 
+        });
+        
+        jQuery('.user-info-block-form .save-btn').click(function(){
+            self        = this;
+            actionCase  = jQuery(self).attr('cbt-case');
+            parentCt    = jQuery(this).closest('.user-info-block-form').first();
+            jQuery.ajax({
+                method          : 'POST',
+                dataType        : 'json',
+                beforeSend      : function(){
+                    jQuery(self).find('i').show();
+                },
+                data            : jQuery(parentCt).find(":input").serialize() + '&case=' + actionCase,
+                success:function(data){
+                    switch(data.status){
+                        case 'success':
+                            //location.reload();
+                            break;
+                        case 'error':
+
+                            break;
+                        case 'validationError':
+                            break;
+                    }
+                },
+                complete:function(){
+                    jQuery(self).find('i').hide();
+                }
+            });
+            parentCt.find('.display-front').show();
+            parentCt.find('.display-btn').show()
+            parentCt.find('.edit-front').hide();
+            parentCt.find('.save-btn').hide(); 
+        });
+    });
+</script>
+<?php $this->end('script'); ?>
+<div class="main-content padd-top-120">
+                <div class="wrapper">
+                    <div class="main-top-content">
+                        <h3>User Info</h3>                        
+                    </div>
+                    <div class="user-info-main">
+                        <div class="col-lg-4 col-md-4 col-sm-12  col-xs-12 user-info-left">
+                            <div class="user-prof-top">
+                                <div class="user-prof-img col-xs-6">
+                                    <img src='<?= $this->Html->gravtarImgsrc($current_user['email']); ?>' 
+                                         alt="<?= h($current_user['first_name'] . ' ' . $current_user['last_name']); ?> Profile Image" />
+                                </div>
+                                <div class="user-name-right col-xs-6"><?= h($current_user['first_name'] . ' ' . $current_user['last_name']) ?></div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="logout-block">
+                                <a href="<?= $this->Url->build(['action'=>'logout']); ?>" class="logout-btn"><?= __('Log out'); ?></a>
+                            </div>
+                            <div class="date-info-blocks">
+                                <div class="date-info-block bit-coin-block col-xs-4">
+                                    <div class="date-info-title">
+                                        Total Bitcoin  Reward 
+                                    </div>
+                                    <div class="date-info-value">
+                                        0.121345
+                                    </div>
+                                </div>
+                                <div class="date-info-block last-payment-block col-xs-4">
+                                    <div class="date-info-title">
+                                        Last Payment  <br/>Date 
+                                    </div>
+                                    <div class="date-info-value">
+                                        05/05/2014
+                                    </div>
+                                </div>
+                                <div class="date-info-block next-payment-block col-xs-4">
+                                    <div class="date-info-title">
+                                        Next Payout <br/>Day 
+                                    </div>
+                                    <div class="date-info-value">
+                                        05/06/2014
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="date-info-last">
+                                <p>* Current Bitcoint Price: $90.00</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12  col-xs-12  user-info-right">
+                            <div class="user-info-blocks-form">
+                                <div class="user-info-block-form">
+                                    <div class="info-block-form-left col-xs-9">
+                                        <label><?= __('Name') ?></label>
+                                        <div class="form-fields-values">
+                                            <div class='display-front'>
+                                            <?= h($current_user['first_name'] . " " . $current_user['last_name']); ?>
+                                            </div>
+                                            <div class='edit-front'>
+                                            <?= $this->Form->text('full_name',[
+                                                'placeholder'   => __('Firstname Lastname'),
+                                                'class'         => 'form-control',
+                                                'value'         => $current_user['first_name'] . ' ' . $current_user['last_name'],
+                                            ]); ?>
+                                                <i class="fa fa-times cancel-btn clickable"></i>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="info-block-form-right col-xs-3">
+                                        <a cbit-edit='name' class="user-form-edit-btn display-btn"><?= _('Edit'); ?></a>
+                                        <a cbit-edit='name' class="user-form-edit-btn save-btn" cbt-case="full_name"><?= _('Save'); ?></a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="user-info-block-form">
+                                    <div class="info-block-form-left col-xs-9">
+                                        <label>Email</label>
+                                        <div class="form-fields-values">
+                                            <div class='display-front'>
+                                            <?= h($current_user['email']); ?>
+                                            </div>
+                                            <div class='edit-front'>
+                                            <?= $this->Form->email('email',[
+                                                'placeholder'   => __('Email address of Yours'),
+                                                'class'         => 'form-control',
+                                                'value'         => $current_user['email'],
+                                            ]); ?>
+                                                <i class="fa fa-times cancel-btn clickable"></i>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="info-block-form-right col-xs-3">
+                                        <a cbit-edit='name' class="user-form-edit-btn display-btn"><?= _('Edit'); ?></a>
+                                        <a cbit-edit='name' class="user-form-edit-btn save-btn" cbt-case="email">
+                                            <i class="loading fa fa-spinner fa-spin"></i>
+                                            <?= _('Save'); ?>
+                                        </a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="user-info-block-form">
+                                    <div class="info-block-form-left col-xs-9">
+                                        <label>Password</label>
+                                        <div class="form-fields-values">
+                                            <div class='display-front'>
+                                            <?= '*********'; ?>
+                                            </div>
+                                            <div class='edit-front'>
+                                            <?= $this->Form->password('password',[
+                                                'placeholder'   => __('Password'),
+                                                'class'         => 'form-control',
+                                                'value'         => '*********',
+                                            ]); ?>
+                                                <i class="fa fa-times cancel-btn clickable"></i>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="info-block-form-right col-xs-3">
+                                        <a cbit-edit='name' class="user-form-edit-btn display-btn"><?= _('change'); ?></a>
+                                        <a cbit-edit='name' class="user-form-edit-btn save-btn" cbt-case="email">
+                                            <i class="loading fa fa-spinner fa-spin"></i>
+                                            <?= _('Save'); ?>
+                                        </a>
+                                        <!-- <a href="#" class="user-form-edit-btn">change</a> -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="user-info-block-form">
+                                    <div class="info-block-form-left col-xs-9">
+                                        <label>Twitter</label>
+                                        <div class="form-fields-values">@Courtney</div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="info-block-form-right col-xs-3">
+                                        <a href="#" class="user-form-true-btn"></a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="user-info-block-form">
+                                    <div class="info-block-form-left col-xs-9">
+                                        <label>Facebook</label>
+                                        <div class="form-fields-values">&nbsp;</div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="info-block-form-right col-xs-3">
+                                        <a href="#" class="user-form-plus-btn"></a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="user-info-block-form">
+                                    <div class="info-block-form-left col-xs-9 border-none">
+                                        <label>Google+</label>
+                                        <div class="form-fields-values">&nbsp;</div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="info-block-form-right col-xs-3">
+                                        <a href="#" class="user-form-plus-btn"></a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="lbl-addi-info col-xs-12">Additional info</div>
+                                <div class="user-info-block-form">
+                                    <div class="info-block-form-left col-xs-9 border-none">
+                                        <label>Bitcoin Address: </label>
+                                        <div class="form-fields-values">&3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="info-block-form-right col-xs-3">
+                                        <a href="#" class="user-form-plus-btn"></a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="user-info-block-form">
+                                    <div class="info-block-form-left col-xs-9 border-none">
+                                        <label>Bitcoin Address: </label>
+                                        <div class="form-fields-values">&3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="info-block-form-right col-xs-3">
+                                        <a href="#" class="user-form-plus-btn"></a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="user-info-block-form">
+                                    <div class="info-block-form-left col-xs-9 border-none">
+                                        <label>Bitcoin Address: </label>
+                                        <div class="form-fields-values">&3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy</div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="info-block-form-right col-xs-3">
+                                        <a href="#" class="user-form-plus-btn"></a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="recent-activity-main">
+                        <h3>Recent Activity</h3>
+                        <div class="recent-activity-blocks">
+                            <ul>
+                                <li>
+                                    <div class="row">
+                                        <div class="activity-title col-lg-10 col-md-10 col-sm-9 col-xs-9">
+                                            <a href="#">UNIQLO - Rebate $99.00</a>
+                                        </div>
+                                        <div class="activity-date col-lg-2 col-md-2 col-sm-3 col-xs-3">Nov 17, 2014</div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                            <a href="#" class="show-more-activity">SHOW MORE ACTIVITIES</a>
+                        </div>
+                    </div>
+                    <div class="back-at-home">
+                        <a href="#" class="back-home">Back to Home page</a>
+                    </div>
+                </div>
+            </div>
+<?php
+return ;
+?>
+<div class="actions columns large-2 medium-3">
+    <h3><?= __('Actions') ?></h3>
+    <ul class="side-nav">
+        <li><?= $this->Form->postLink(
+                __('Delete'),
+                ['action' => 'delete', $user->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]
+            )
+        ?></li>
+        <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Bitcoin Accounts'), ['controller' => 'BitcoinAccounts', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Bitcoin Account'), ['controller' => 'BitcoinAccounts', 'action' => 'add']) ?> </li>
+    </ul>
+</div>
+<div class="users form large-10 medium-9 columns">
+    <?= $this->Form->create($user); ?>
+    <fieldset>
+        <legend><?= __('Edit User') ?></legend>
+        <?php
+            echo $this->Form->input('email');
+            echo $this->Form->input('password');
+            echo $this->Form->input('first_name');
+            echo $this->Form->input('last_name');
+            echo $this->Form->input('role');
+        ?>
+    </fieldset>
+    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->end() ?>
+</div>

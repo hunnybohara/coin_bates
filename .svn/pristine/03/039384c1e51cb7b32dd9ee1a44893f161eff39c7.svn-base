@@ -1,0 +1,12 @@
+2015-07-12 08:16:47 Error: [Cake\Console\Exception\MissingShellException] Shell class for "Make" could not be found.
+Exception Attributes: array (
+  'class' => 'Make',
+)
+Stack Trace:
+#0 /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/vendor/cakephp/cakephp/src/Console/ShellDispatcher.php(201): Cake\Console\ShellDispatcher->findShell('make')
+#1 /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/vendor/cakephp/cakephp/src/Console/ShellDispatcher.php(175): Cake\Console\ShellDispatcher->_dispatch()
+#2 /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/vendor/cakephp/cakephp/src/Console/ShellDispatcher.php(126): Cake\Console\ShellDispatcher->dispatch()
+#3 /Applications/MAMP/htdocs/coinbatesapp/coinbatesfront/bin/cake.php(20): Cake\Console\ShellDispatcher::run(Array)
+#4 {main}
+
+

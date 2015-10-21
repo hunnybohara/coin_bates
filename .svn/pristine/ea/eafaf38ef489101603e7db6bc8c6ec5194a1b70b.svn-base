@@ -1,0 +1,161 @@
+<!-- login form -->
+<div id='cbts-login-modal' class="modal fade login-modal-sm login-modal-sm-container" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header-top">
+                <div class="model-title-main">Log in</div>
+            </div>
+            <div class="model-midd-content">
+                <a href="<?= $this->Html->getFacebookLoginUrl(); ?>" class="facebook-login">Sign up with Facebook</a>
+                <a href="#" id="gplussignin" class="gplus-login">Sign up with Google+</a>
+                <script type="text/javascript">
+                    var response;
+                    jQuery().ready(function(){
+                        
+                        jQuery('#login-form').submit(function(event){
+                            jQuery.ajax({
+                                url:jQuery('#login-form').attr('action'),
+                                method:'POST',
+                                dataType:'json',
+                                beforeSend:function(){
+                                    jQuery('#login-btn i').show();
+                                },
+                                data:jQuery('#login-form').serialize(),
+                                success:function(data){
+                                    switch(data.status){
+                                        case 'success':
+                                            location.reload();
+                                            break;
+                                        case 'error':
+                                            
+                                            break;
+                                        case 'validationError':
+                                            break;
+                                    }
+                                },
+                                complete:function(){
+                                    jQuery('#login-btn i').hide();
+                                }
+                            });
+                            event.preventDefault();
+                        });
+                        
+                        /*jQuery('#gplussignin').click(function(){
+                            alert('we are here');
+                            gapi.auth.signIn({ 
+                                'callback':function(authResult){
+                                    response = authResult;
+                                    jQuery.ajax({
+                                        
+                                    });
+                                },
+                                'clientid': <?= \Cake\Core\Configure::read('GPLUS.client_id'); ?>, 
+                                'cookiepolicy': 'single_host_origin', 
+                                'requestvisibleactions': 'http://schemas.google.com/AddActivity',
+                                'scope': 'https://www.googleapis.com/auth/plus.login'
+                            });
+                        });*/
+                    });
+                    (function() {
+                        gapi.load('auth2', function(){
+                            auth2 = gapi.auth2.init({
+                                client_id       : '<?= \Cake\Core\Configure::read('GPLUS.client_id'); ?>',
+                                cookiepolicy    : 'single_host_origin',
+                            });
+                            attachSignin();
+                        });
+                    })();
+                    var userinfo; 
+                    function attachSignin() {
+                        jQuery.each(jQuery('.gplus-login'),function(index,element){       
+                            auth2.attachClickHandler(element, {},function(googleUser) {
+                                userinfo = googleUser;
+                                    jQuery.ajax({
+                                        url        : '<?= $this->Html->getGooglePlusLoginUrl() ?>',
+                                        data       : {
+                                            'full_name' : googleUser.getBasicProfile().getName(),
+                                            'gpid'      : googleUser.getBasicProfile().getId(),
+                                            'email'     : googleUser.getBasicProfile().getEmail(),
+                                            'gptoken'   : googleUser.getAuthResponse().id_token
+                                            },
+                                        method     : 'post',
+                                        dataType   : 'json', 
+                                        beforeSend : function(){
+
+                                        },
+                                        complete   : function(){
+
+                                        },
+                                        onError    : function(){
+
+                                        },
+                                        success    : function(response){
+                                            switch(response.status){
+                                                case 'success':
+                                                    window.location.reload();
+                                                    break;
+                                            }
+                                        }
+                                    });
+                                    
+                                }, function(error) {
+                                alert(JSON.stringify(error, undefined, 2));
+                            });
+                        });
+                        
+                    }
+                </script>
+                <div class="or-space">
+                    <span>or</span>
+                </div>
+                <div class="login-form-main">
+                    <?php 
+                        echo $this->Form->create('User',[
+                            'id'            => 'login-form',
+                            'name'          => 'login-form',
+                            'class'         => 'login-form',
+                            'autocomplete'  => 'off',
+                            'url'           => ['controller' => 'users','action' => 'login'],
+                        ]);
+                    ?>
+                    <div class="form-group">
+                        <?php
+                        echo $this->Form->text('email',[
+                            'class'             => 'form-control log-email log-input',
+                            'placeholder'       => __('Email Address'),
+                            'autocomplete'      => 'off',
+                        ]); 
+                        ?>
+                    </div>
+                    <div class="form-group">
+                        <?php
+                        echo $this->Form->password('password',[
+                            'class'             => 'form-control log-password log-input',
+                            'placeholder'       => __('Password'),
+                            'autocomplete'      => 'off', 
+                        ]);
+                        ?>
+                    </div>
+                    <div class="ch-forgot-main">
+                        <div class="checkbox col-xs-6 chk-left-1">
+                            <label>
+                                <input type="checkbox"> Remember me
+                            </label>
+                        </div>
+                        <div class="col-xs-6 chk-left-1 text-right">
+                            <a href="#" class="forgot-password">Forgot password?</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <button type="submit" id='login-btn' class="login-btn-form">
+                        <i class="loading fa fa-spinner fa-spin"></i> <?= __('Log in') ?>
+                    </button>
+                    <div class="dont-account">Don´t have an account? <a href="#">Sign up</a></div>
+                    <?= $this->Form->end(); ?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- EOF:login form -->

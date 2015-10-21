@@ -1,0 +1,2 @@
+#!/bin/bash
+./smtp -b $1 -t 2000 -p 25 -user users -pass pass

@@ -1,0 +1,229 @@
+<?php
+namespace App\Controller;
+
+use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
+use Cake\ORM\Table;
+use Cake\Controller\Component\CustomComponent;
+/**
+ * Offers Controller
+ *
+ * @property \App\Model\Table\OffersTable $Offers
+ */
+class OffersController extends AppController
+{
+    public function initialize(){
+        parent::initialize();
+        $this->loadComponent('Custom');
+        $this->Auth->allow('ls_offer');
+    }
+    /* link share Api */
+    public function ls_offer(){
+
+        $a_n = TableRegistry::get('AffiliateNetworks');
+        $query  = $a_n->findByName('LinkShare', array('AffiliateNetwork.name'));
+        $affiliateNetworksarr = $query->toArray();
+        if(count($affiliateNetworksarr) > 0 ){
+            $affilate_id = $affiliateNetworksarr[0]->id;            
+        }   
+        /* already inserted coupons */
+        $query = $this->Offers->find('list',[
+            'keyField'      => 'id',
+            'valueField'    => 'link'
+        ]);
+        $Offersdata = $query->toArray();
+        /* list of current AffiliateNetworks merchant  */
+        $m_n_a = TableRegistry::get('MerchantAffiliateNetworks');
+        $merchants_data = $m_n_a->find('list', [
+                                        'keyField'      => 'merchant_id',
+                                        'valueField'    => 'merchant',
+                                        'conditions'=>['affiliate_network_id'=>$affilate_id]
+                                        ]
+                                    );
+        $Merchantsdata = $merchants_data->toArray();
+        
+        /* new coupon  */
+        $xml = $this->Custom->curl_hit('http://couponfeed.linksynergy.com/coupon?token=a7eb246bace36fed93daa2c80240b1293ab27f858a7271a1cad2d7798681545a&network=1&resultsperpage=1&pagenumber=1');
+        $data = json_decode(json_encode($xml),true);
+        $cat_id = array();
+        $cat_name = array();
+        if(!empty($data))
+        {
+            $TotalPages = $data['TotalPages'];
+            $our_per_page = 100;
+            $final_page_range = ceil($TotalPages / $our_per_page);
+            for ($i=1; $i <= $final_page_range; $i++) 
+            {    
+                $data = $this->Custom->curl_hit("http://couponfeed.linksynergy.com/coupon?token=a7eb246bace36fed93daa2c80240b1293ab27f858a7271a1cad2d7798681545a&network=1&resultsperpage=$our_per_page&pagenumber=$i");
+                pr($data);die;
+                $data = json_decode(json_encode($data),true);
+                /*if(!empty($data['link']))
+                {
+                    foreach ($data['link'] as $key => $value) 
+                    {   
+                        if(!in_array($value['clickurl'], $Offersdata)){
+                            $save = array(); 
+                            $merchant_id =  array_search($value["advertiserid"],$Merchantsdata);
+                            $save['merchant_id'] = $merchant_id;
+                            $save['title'] = $value['offerdescription'];
+                            $save['sub_title'] = $value['offerdescription'];
+                            $save['display_title'] = $value['offerdescription'];
+                            $save['description'] = $value['offerdescription'];
+                            $save['link'] =  $value['clickurl']; 
+                            $save['affiliate_network_id'] =  $affilate_id; 
+                            $allData[] = $save;
+                            unset($save);
+                        }
+                    }
+                }*/
+            }
+        }
+       
+        if(!empty($allData)){
+            foreach ($allData as $key => $value) {  
+             
+                $offer = $this->Offers->newEntity();   
+                extract($value);
+                $offer->merchant_id = $merchant_id;
+                $offer->title         = $title; 
+                $offer->sub_title       =   $sub_title;
+                $offer->display_title     =     $display_title;
+                $offer->description         = $description ;
+                $offer->affiliate_network_id         = $affiliate_network_id;
+                $offer->link         = $link;
+                $this->Offers->save($offer,['validate' => false]);    
+            }
+        }
+        return $this->redirect(['action' => 'index']);
+    }
+    /**
+     * Index method
+     *
+     * @return void
+     */
+    public function index()
+    {
+        $this->paginate = [
+            'contain'       => ['Merchants'],
+            'sort'          => 'id',
+            'direction'     => 'desc',
+        ];
+        $this->set('offers', $this->paginate($this->Offers));
+        $this->set('_serialize', ['offers']);
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Offer id.
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $offer = $this->Offers->get($id, [
+            'contain' => ['Merchants']
+        ]);
+        $this->set('offer', $offer);
+        $this->set('_serialize', ['offer']);
+    }
+
+    /**
+     * Add method
+     *
+     * @return void Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $offer = $this->Offers->newEntity();
+        if ($this->request->is('post')) {
+
+            $offer = $this->Offers->patchEntity($offer, $this->request->data);
+            
+            if ($this->Offers->save($offer)) {
+                $this->Flash->success('The offer has been saved.');
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error('The offer could not be saved. Please, try again.');
+            }
+        }
+        $merchants = $this->Offers->Merchants->find('list', [
+            'keyField'       => 'id',
+            'valueField'     => 'name',
+        ]);
+        $this->set('isEdit',FALSE);
+        $this->set(compact('offer', 'merchants'));
+        $this->set('_serialize', ['offer']);
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Offer id.
+     * @return void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $offer = $this->Offers->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $offer = $this->Offers->patchEntity($offer, $this->request->data);
+            if ($this->Offers->save($offer)) {
+                $this->Flash->success('The offer has been saved.');
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error('The offer could not be saved. Please, try again.');
+            }
+        }
+        $merchants = $this->Offers->Merchants->find('list', [
+            'keyField'       => 'id',
+            'valueField'     => 'name',
+        ]);
+        $this->set(compact('offer', 'merchants'));
+        $this->set('isEdit',TRUE);
+        $this->set('_serialize', ['offer']);
+        
+        $this->view = 'add';
+        
+    }
+
+    /**
+     * Delete method
+     *
+     * @param string|null $id Offer id.
+     * @return void Redirects to index.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $offer = $this->Offers->get($id);
+        if ($this->Offers->delete($offer)) {
+            $this->Flash->success('The offer has been deleted.');
+        } else {
+            $this->Flash->error('The offer could not be deleted. Please, try again.');
+        }
+        return $this->redirect(['action' => 'index']);
+    }
+    /* link share Api */
+    public function ls_coupon(){
+            
+        $data = $this->Custom->curl_hit('http://findadvertisers.linksynergy.com/merchantsearch?token=a7eb246bace36fed93daa2c80240b1293ab27f858a7271a1cad2d7798681545a');
+        $data = json_decode(json_encode($data),true);
+        $merchants_data = $this->Merchants->find('list',['fields'=>['ls_id','name']]);
+        $save = array();
+        if(isset($data['midlist']['merchant']) && !empty($data['midlist']['merchant'])){
+            foreach ($data['midlist']['merchant'] as $key => $value) {
+                if(!array_key_exists($value['mid'], $merchants_data)){
+                    $merchant = $this->Merchants->newEntity();
+                    $merchant->ls_id =  $value['mid'];
+                    $merchant->name = $value['merchantname'];
+                    $this->Merchants->save($merchant,['validate' => false]);
+                }
+            }
+        }
+        die;
+    }
+}

@@ -1,0 +1,313 @@
+<?php
+namespace App\Controller;
+
+use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
+use Cake\ORM\Table;
+use App\Model\Entity\MerchantAffiliateNetwork;
+use Cake\Utility\Hash;
+use Cake\Core\Configure;
+use Cake\Controller\Component\CustomComponent;
+/**
+ * Merchants Controller
+ *
+ * @property \App\Model\Table\MerchantsTable $Merchants
+ * @property \App\Model\Table\FilesTable $Files
+ */
+class MerchantsController extends AppController
+{
+    public function initialize(){
+        parent::initialize();
+        $this->loadComponent('Custom');
+        $this->Auth->allow('ls_merchant');
+    }
+    /* link share Api */
+    public function ls_merchant(){
+            
+        $data = $this->Custom->curl_hit('http://findadvertisers.linksynergy.com/merchantsearch?token=a7eb246bace36fed93daa2c80240b1293ab27f858a7271a1cad2d7798681545a');
+        $data = json_decode(json_encode($data),true);
+
+        $a_n = TableRegistry::get('AffiliateNetworks');
+        $query  = $a_n->findByName('LinkShare', array('AffiliateNetwork.name'));
+        $affiliateNetworksarr = $query->toArray();
+        if(count($affiliateNetworksarr) > 0 ){
+            $affilate_id = $affiliateNetworksarr[0]->id;            
+        }  
+        /* list already inserted merchant */
+        $saved_merchants = $this->Merchants->find('list',[
+                                        'keyField'      => 'id',
+                                        'valueField'    => 'name']);
+        $saved_merchants = $saved_merchants->toArray();
+
+        /* list of current AffiliateNetworks merchant  */
+        $m_n_a = TableRegistry::get('MerchantAffiliateNetworks');
+        $merchants_data = $m_n_a->find('list', [
+                                        'keyField'      => 'id',
+                                        'valueField'    => 'merchant',
+                                        'conditions'=>['affiliate_network_id'=>$affilate_id]
+                                        ]
+                                    );
+        $affiliateNetworksarr = $merchants_data->toArray();
+        $save = array();
+        if(isset($data['midlist']['merchant']) && !empty($data['midlist']['merchant'])){
+            foreach ($data['midlist']['merchant'] as $key => $value) {
+                if(!in_array($value['merchantname'], $saved_merchants)){
+                    /* new merchant */
+                    $merchant = $this->Merchants->newEntity();
+                    $merchant->name = $value['merchantname'];
+                    $merchant->network_id = 1;
+                    $this->Merchants->save($merchant,['validate' => false]);
+                    
+                    $save_data = $m_n_a->newEntity();
+                    $save_data->merchant = $value['mid'];
+                    $save_data->merchant_id = $merchant->id;
+                    $save_data->affiliate_network_id = $affilate_id;     
+
+                    $m_n_a->save($save_data,['validate' => false]);
+
+                }
+                elseif(!in_array($value['mid'],$affiliateNetworksarr)){
+                    /* new merchant on current affilate network  */
+                    $save_data = $m_n_a->newEntity();
+                    $save_data->merchant = $value['mid'];
+                    $save_data->merchant_id = array_search($value['merchantname'], $saved_merchants);
+                    $save_data->affiliate_network_id = $affilate_id;
+                    $m_n_a->save($save_data);
+                }
+            }
+        }
+        return $this->redirect(['action' => 'index']);
+    }
+    /**
+     * Index method
+     *
+     * @return void
+     */
+    public function index()
+    {
+        $this->paginate = [
+            'contain'       => ['AffiliateNetworks'],
+            'sort'          => 'id',
+            'direction'     => 'desc',
+        ];
+        $this->set('merchants', $this->paginate($this->Merchants));
+        $this->set('_serialize', ['merchants']);
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Merchant id.
+     * @return void
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $merchant = $this->Merchants->get($id, [
+            'contain' => ['AffiliateNetworks','Categories','Tags']
+        ]);
+        $this->set('merchant', $merchant);
+        $this->set('_serialize', ['merchant']);
+    }
+
+    /**
+     * Add method
+     *
+     * @return void Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $this->Categories   = TableRegistry::get('Categories');
+        $this->Tags         = TableRegistry::get('Tags');
+        $this->Files        = TableRegistry::get('Files');
+        $selCategories      = [];
+        
+        $merchant = $this->Merchants->newEntity();
+        
+        if ($this->request->is('post')) {
+
+            if(!empty($this->request->data['tag'])){
+                $tags   = explode(",",$this->request->data['tag']);
+                $dbTags = $this->Tags->find('list')
+                            ->where(function ($exp, $q) use ($tags) {
+                                return $exp->in('name', $tags);
+                            })->toArray();
+            }
+            
+            $merchant       = $this->Merchants->patchEntity($merchant, $this->request->data);
+            //pr($merchant);
+            //echo $merchant->name;
+            //die('till here all seems ok to us');
+            if(!isset($this->request->data['logo']['error'])?$this->request->data['logo']['error']:FALSE){
+                $logo               = $this->Files->saveFile($this->current_user['id'],$this->request->data['logo']);
+                $merchant->logo     = $logo->id;
+            }
+            
+            /**
+             * 
+             * @todo  Validation Error needs to be checked here and Post the
+             * Validation error message Accordingly over here.
+             */
+            
+            $status = $this->Merchants->save($merchant);
+            
+            if ($status) {
+                
+                if(!isset($this->request->data['logo']['error'])?$this->request->data['logo']['error']:TRUE){
+                    /*$fileHash           = md5($merchant->id . '_' .$this->request->data['logo']['name']);
+                    $fileExtention      = pathinfo($this->request->data['logo']['name'], PATHINFO_EXTENSION);
+                    $fileName           = $fileHash . "." . $fileExtention;
+                    $fileDestination    = Configure::read('Simgupload') .  $fileName;
+                    move_uploaded_file($this->request->data['logo']['tmp_name'],$fileDestination);*/
+                    $file = $this->Files->saveFile($this->current_user['id'], $this->request->data['logo']);
+                    if($file){
+                        $merchant->logo = $file->id;
+                        $this->Merchants->save($merchant);
+                    }
+                }
+                $this->Flash->success('The merchant has been saved.');
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error('The merchant could not be saved. Please, try again.');
+            }
+        }
+        Skip:
+        $affiliateNetworks  = $this->Merchants->AffiliateNetworks->find('list',[
+            'keyField'      => 'id',
+            'valueField'    => 'name',
+        ]);
+        $tags               = $this->Tags->find('list',[
+            'keyField'      => 'id',
+            'valueField'    => 'name',
+        ]);               
+        $categories         = $this->Categories->find('list',[
+            'keyField'      => 'id',
+            'valueField'    => 'name',
+        ]);               
+        
+        $this->set('selCategories'  ,$selCategories);
+        $this->set('isEdit',FALSE);
+        $this->set(compact('merchant', 'affiliateNetworks','tags','categories'));
+        $this->set('_serialize', ['merchant','affiliateNetworks','tags','categories']);
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Merchant id.
+     * @return void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {      
+        $this->Categories   = TableRegistry::get('Categories');
+        $this->Tags         = TableRegistry::get('Tags');
+        $this->Files        = TableRegistry::get('Files');
+        $selCategories      = [];
+        
+        $merchant = $this->Merchants->get($id, [
+            'contain' => ['AffiliateNetworks','Categories','Tags']
+        ]);
+        
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            if(isset($this->request->data['tag'])){
+                $tags           = explode(",",$this->request->data['tag']);
+                $databaseTags   = $this->Tags->find('all',[
+                    'keyField'      => 'name',
+                    'valueField'    => 'tag',
+                    'Condition'     => ['Tags.name IN '=>$tags]
+                ])->reduce(function($output,$value){
+                    $Object         = $value->toArray();
+                    unset($Object['created']);
+                    unset($Object['modified']);
+                    unset($Object['parent']);
+                    $output[$value->name]   = $Object;
+                    return $output;
+                },[]);
+                foreach($tags as $tag){
+                    if(in_array($tag, array_keys($databaseTags))){
+                        $finalTags[]['Tag'] = $databaseTags[$tag];
+                    }else{
+                        $finalTags[]['Tag'] = [
+                            'name'  => $tag
+                        ];
+                    }
+                }
+                unset($this->request->data['tag']);
+                $this->request->data['tags']    = $finalTags; 
+            }
+            
+            $merchant = $this->Merchants->patchEntity($merchant, $this->request->data);
+            if(!isset($this->request->data['logo']['error'])?$this->request->data['logo']['error']:FALSE)
+            {
+                $logo = $this->Files->saveFile($this->current_user['id'],$this->request->data['logo']);                    
+            }
+            if(!isset($this->request->data['logo']['error'])?$this->request->data['logo']['error']:TRUE){
+                /*$fileHash           = md5($merchant->id . '_' .$this->request->data['logo']['name']);
+                $fileExtention      = pathinfo($this->request->data['logo']['name'], PATHINFO_EXTENSION);
+                $fileName           = $fileHash . "." . $fileExtention;
+                $fileDestination    = Configure::read('Simgupload') .  $fileName;
+                move_uploaded_file($this->request->data['logo']['tmp_name'],$fileDestination);*/
+                $file = $this->Files->saveFile($this->current_user['id'], $this->request->data['logo']);
+                //pr($file);die;
+                if($file){
+                    $merchant->logo = $file->id;
+                   // $this->Merchants->save($merchant);
+                }
+            }
+            //pr($merchant);die;
+            if ($this->Merchants->save($merchant)) 
+            { 
+                $this->Flash->success('The merchant has been saved.');
+                return $this->redirect(['action' => 'index']);
+            } 
+            else 
+            {
+                $this->Flash->error('The merchant could not be saved. Please, try again.');
+            }
+        }
+        
+        $affiliateNetworks = $this->Merchants->AffiliateNetworks->find('list', [
+            'keyField'      => 'id',
+            'valueField'    => 'name',
+        ]);
+        $tags               = $this->Tags->find('list',[
+            'keyField'      => 'id',
+            'valueField'    => 'name',
+        ]);               
+        $categories         = $this->Categories->find('list',[
+            'keyField'      => 'id',
+            'valueField'    => 'name',
+        ]);
+        
+        if(count($merchant->categories)>0){
+            foreach($merchant->categories  as $category){
+                $selCategories[] = $category->id;
+            }
+        }
+        $this->set('selCategories'  ,$selCategories);
+        $this->set(compact('merchant', 'affiliateNetworks','tags','categories'));
+        $this->set('_serialize', ['merchant','tags','categories','affiliateNetworks']);
+        $this->set('isEdit',TRUE);
+        $this->view = 'add';
+    }
+
+    /**
+     * Delete method
+     *
+     * @param string|null $id Merchant id.
+     * @return void Redirects to index.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $merchant = $this->Merchants->get($id);
+        if ($this->Merchants->delete($merchant)) {
+            $this->Flash->success('The merchant has been deleted.');
+        } else {
+            $this->Flash->error('The merchant could not be deleted. Please, try again.');
+        }
+        return $this->redirect(['action' => 'index']);
+    }
+}

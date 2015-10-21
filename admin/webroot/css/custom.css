@@ -1,0 +1,84 @@
+/* 
+    Document   : custom
+    Author     : Anand Thakkar
+    Description:
+        Override the Existing Style for some of the elements under the Ready 
+        Made Theme
+*/
+/* General Section */
+.panel-heading {
+    text-transform:none; 
+}
+.clickable {
+    cursor:pointer; 
+}
+#exe {
+    display:none;
+    visibility:hidden; 
+}
+/* Plans Section */
+.form-horizontal .control-label{
+    text-align:left;  
+}
+.ppt-row {
+    
+}
+.ppt-terms label {
+    font-size:20px;
+    margin:0px !important;
+    padding:0px !important; 
+    font-weight:normal; 
+}
+.ppt-terms .form-control {
+    padding:6px 10px !important;
+    text-align:center;
+    
+}
+
+.ppt-commision-row {
+    padding:5px 0px; 
+}
+
+
+.map-canvas {
+    width:100%;
+    height:250px; 
+}
+
+/* Plan Master */
+#commission_rows input[type="text"] {
+    text-align:right; 
+}
+
+/* Add Family - Main form */
+.form-row {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+.member-gender-ct {
+    padding-top:7px; 
+}
+.member-gender-ct.icheck div {
+    margin-right:5px; 
+}
+
+.wizard > .content > .body{
+    padding:0px;
+    width:100%;
+}
+.wizard.vertical > .steps {
+    width:25%;  
+}
+.wizard.vertical > .content {
+    width:70%;  
+    min-height:400px;
+    margin:0px;
+    padding:0% 1%; 
+}
+
+.cib-radio label{
+    cursor:pointer; 
+}
+.cib-radio input[type="radio"]{
+    margin:0px 10px; 
+}

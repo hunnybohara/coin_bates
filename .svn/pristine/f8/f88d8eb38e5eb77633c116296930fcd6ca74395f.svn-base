@@ -1,0 +1,378 @@
+/* =========RESPONSIVE STYLE ========= */
+@media (min-width: 1000px) {
+    .slider-main .carousel-caption {
+        padding: 0px !important;
+        text-shadow: none !important;
+    }
+}
+
+@media (max-width: 1250px) {
+    body{
+        padding: 0 15px;
+    }
+    .wrapper,
+    .count-down-wrapper,
+    .faq-grey-block-wrapper{
+        width: 100%;
+        padding: 0 15px;
+    }
+    
+    .logo{
+        padding: 6px 15px 0;
+    }
+    .coupen-right span.offer-small-title {
+        font: normal normal normal 1em 'robotoregular', serif;        
+    }
+    .coupen-right span.percentage-large {
+        font: normal normal normal 3em 'robotomedium', serif;
+    }
+    .coupen-right span.offer-title {
+        font: normal normal normal 1.2em 'robotomedium', serif;
+    }
+}
+
+@media (max-width: 1200px) {
+    .search-container-wrapper label{
+        text-align: center;
+    }
+    .search-container-main {
+        padding: 35px 15px;
+    }
+    .slider-main .carousel-caption h5 {        
+        font: normal normal normal 1.5em 'robotoregular', serif;
+    }
+    .slider-main .carousel-caption p {
+        font: normal normal normal 1em 'robotolight', serif;
+    }
+    a.wallet-start-now{
+        bottom: -48px;
+    }
+    .coupen-left-main{
+        background: #b9b8b5;
+    }
+    a.shop-now-btn{
+        margin: 0 0 10px 0;
+    }
+    .merchant-top{
+        background: #ebeae6;
+    }
+    div.coupen-info,.coupen-info-btn-main{
+        height: auto;
+    }
+}
+@media (max-width: 1024px){
+    .coupen-right{
+        padding: 5px;        
+    }
+}
+@media (max-width: 998px){
+    .slider-main .carousel-caption {
+        padding: 0px 15px !important;
+        width: 100%;
+        left: 0;
+    }
+    .main-bottom-content ul li {
+        width: 25%;
+        min-height: 220px;
+    }
+}
+@media (max-width: 800px){
+    .main-content.padd-top-120{
+        padding: 20px 0 0;
+        margin: 0 -15px;
+    }
+    .date-info-value {
+        font: normal normal normal 1em/20px 'robotomedium', serif;
+    }
+    div.user-prof-img {
+        padding: 0px;
+        width: 100%;
+        text-align: center;
+    }
+    div.user-name-right{
+        width: 100%;
+        padding: 15px 0 0;
+        text-align: center;
+        font: normal normal normal 1.4em/24px 'robotobold', serif;
+    }
+    .info-block-form-left label{
+        font: normal normal normal 1.4em/30px 'robotomedium', serif;
+    }
+    .form-fields-values{
+        font: normal normal normal 1.2em/30px 'robotomedium', serif;
+    }
+    
+}
+
+@media (max-width: 768px){
+    .slider-main .carousel-caption{
+        display: none !important;
+    }
+    .logo {
+        padding: 6px 15px 0;
+        width: 50%;
+    }
+    div.head-right-menu{
+        width: 50%;
+    }    
+    .search-container-wrapper label{
+        width: 100%;
+        padding: 0px;
+    }
+    .search-input-main-container {
+        width: 100%;
+    }
+    .padd-top-120 {
+        padding: 20px 0 0 10px;
+    }
+    .bitcoin-wallet-main {
+        padding: 20px 0 0 0;
+    }
+    .bitcoin-wallet-right,.bitcoin-wallet-left{
+        float: none !important;
+        width: 100%;
+        margin: 0 0 10px 0;
+    }
+    a.wallet-start-now{
+        bottom: 10px;
+    }
+    .bitcoin-wallet-main ul li{
+        text-align: center !important;
+    }
+    .featured-store-title{
+        padding: 10px 0;
+    }
+    .deal-coupen-blocks ul li{
+        width: 50%;
+        margin: 0 0 10px 0;
+    }
+    .featured-store-main {        
+        padding: 20px 0 0 0;
+    }
+    .faq-title-container {
+        padding: 20px 0;
+    }
+    .faq-block{
+        width: 100%;
+        margin: 0 0 10px 0;
+    }
+    .footer-top-main {
+        padding: 20px 0;
+    }
+    div.user-info-left{
+        margin: 0 0 10px 0;
+    }
+    .main-top-content {
+        text-align: center;
+        margin: 0 0 20px 0;
+    }
+    .main-top-content h3{
+        font: normal normal normal 2em 'robotomedium', serif;
+    }
+    .date-info-block{
+        min-height: 120px;
+    }
+    .owl-theme .owl-controls{
+        display: none !important;
+    }
+    .main-bottom-content {
+        margin: 0px 15px 25px;
+    }
+}
+@media (max-width: 767px){
+    .main-top-content{
+        
+    }
+}
+@media (max-width: 600px){
+    .main-bottom-content ul li {
+        width: 50%;
+        min-height: 220px;
+    }
+    .faq-title-container{
+        padding: 0 0 20px 0;
+    }
+    .count-down-watch {
+        width: 300px;
+    }
+    .count-down-wrapper{
+        height: auto;
+    }
+    .count-down-block {
+        width: 90px;
+        margin: 0px 5px;
+    }
+    .count-down-block-top{
+        height: 90px;
+    }
+    .count-num{
+        font: normal normal 100 4em/50px 'robotobold', serif;
+        padding: 20px 0 0 0;
+    }
+    a.wallet-start-now {
+        bottom: -10px;
+        right: 35%;
+    }
+    .bitcoin-wallet-img{
+        padding: 0 0 50px 0;
+    }
+    .coupen-left-main {
+        padding: 0px;
+        width: 100%;
+        margin: 0 0 15px 0;
+    }
+    div.coupen-info{
+        width: 100%;
+        margin: 0 0 15px 0;
+    }
+    .coupen-info-btn-main{
+        width: 100%;
+    }
+    .main-top-content{
+        margin: 0 0 20px 0;
+    }
+    .main-content{
+        padding: 20px 0 0;
+    }
+    .main-content .wrapper{
+        padding: 0;
+    }
+    .main-content.padd-top-120{
+        margin: 0px;
+    }
+}
+@media (max-width: 599px){
+    .logo img{
+        max-width: 100%;
+    }
+    a.user-form-edit-btn,a.user-form-true-btn,a.user-form-plus-btn{
+        width: 100%;
+    }
+    
+}
+@media (max-width: 480px){
+    .white-arrow-select{
+        background: url('images/down-arrow.png') no-repeat 95% 10px;
+    }
+    .deal-coupen-blocks ul li {
+        width: 100%;
+    }
+}
+@media (max-width: 479px){
+    div.logo{
+        width: 100%;
+        padding: 0px;
+        text-align: center;
+        float: none;
+        margin: 0 0 10px 0;
+    }
+    div.head-right-menu {
+        width: 100%;
+        background: #343c4d;
+    }
+    .log-main ul li a{
+        font: normal normal 100 14px 'robotobold', serif;
+    }
+    input.search-input-main{
+        height: 42px;
+    }
+    .search-btn-absol{
+        padding: 8px 0px;
+    }
+    .main-top-content h3{
+        font: normal normal normal 2em 'robotomedium', serif;
+    }
+    .main-top-content h6{
+        font: normal normal normal 1.4em 'robotolight', serif;
+    }
+    .main-top-content p{
+        font: normal normal normal 1.2em 'robotolight', serif;
+    }
+    .main-bottom-content ul li{
+        width: 100%;
+    }
+    .bitcoin-wallet-main h3{
+        margin: 0 0 20px 0;
+        font: normal normal normal 2em 'robotomedium', serif;
+    }
+    .bitcoin-wallet-main ul li p{
+        font: normal normal normal 1.2em 'robotoregular', serif;
+    }
+    .featured-store-title h3{
+        font: normal normal normal 2em 'robotomedium', serif;
+    }
+    .deal-of-week{
+        padding: 20px 0;
+    }
+    .faq-title-container h3{
+        font: normal normal normal 2em 'robotomedium', serif;
+    }
+    .count-down-watch{
+        margin: 0px -20px 20px;
+    }
+    .copy-text{
+        width: 100%;
+        text-align: center;
+    }
+    .back-to-top-main {
+        text-align: center;
+        width: 100%;
+        padding: 10px;
+    }
+    .search-navi{
+        margin: 0 0 20px 0;
+    }
+    .b-logo {
+        margin: 0 0 10px;
+    }
+    a.shop-now-btn {
+        width: 100%;
+    }
+    a.bring-to-store-btn{
+        width: 100%;
+    }
+    .coupen-info-btn-main{
+        text-align: center;
+    }
+    .merchant-special-condotion{
+        padding: 15px;
+    }
+    .info-block-form-left{
+        width: 100%;
+    }
+    .info-block-form-right{
+        margin: 10px 0;
+    }
+    .lbl-addi-info{
+        font: normal normal normal 2em/25px 'robotomedium', serif;
+    }
+    .activity-title a{
+        font: normal normal normal 1.2em/21px 'robotomedium', serif;
+    }
+    .activity-date{
+        font: normal normal normal 1em/21px 'robotolight', serif;
+    }
+    .recent-activity-main h3{
+        margin: 0 0 15px 0;
+        font: normal normal normal 30px/20px 'robotomedium', serif;
+    }
+    .user-info-main {
+        margin: 0 0 30px 0;
+    }
+    .info-block-form-right{
+        width: 100%;
+        text-align: left;
+    }
+    a.user-form-edit-btn, a.user-form-true-btn, a.user-form-plus-btn {
+        width: 130px;
+        margin: 0px;
+    }
+}
+
+@media (max-width: 320px){
+    a.wallet-start-now {
+        bottom: -10px;
+        right: 23%;
+    }
+    
+}

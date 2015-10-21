@@ -1,0 +1,41 @@
+<div class="main-content padd-top-120">
+	<div class="search-title">Search Result</div>
+	<?php
+	//pr($merchant);die;
+	foreach ($merchant as $merchants) 
+	{?>			
+	    <div class="wrapper">
+	        <div class="merchant-top">
+	            <div class="col-xs-3 coupen-left-main">
+	                <div class="coupen-left">
+	                <?php
+	                    $logo = md5($merchants->logo);
+	                ?>
+	                    <img src="<?= $this->Url->build('/images/'.$logo.'.png')?>" alt="<?= h($merchants->name) ?>">
+	                </div>
+	                <div class="coupen-right">
+	                    <span class="percentage-large"><?= $merchants->offerCount() ?></span>
+	                    <span class="offer-title"><?= __('Offer(s)')?></span>
+	                    <span class="offer-small-title"><?= __('Accepting Bitcoin')?></span>
+	                </div>
+	                <div class="clearfix"></div>
+	            </div>                        
+	            <div class="col-xs-5 coupen-info">
+	                <h6><?= h($merchants->name) ?></h6>
+	            </div>
+	            <div class="col-xs-4 coupen-info-btn-main">
+	                <?php if($merchants->accept_bitcoin):?>
+	                <?= $this->Html->image('/images/b-logo.png',[
+	                    'alt'       => 'logo',
+	                    'class'     => 'b-logo',
+	                ])?>
+	                <?php endif; ?>
+	                <a href="<?= $merchants->website_link ?>" target="_blank" class="bring-to-store-btn"><?= __('Bring To Store') ?></a>
+	                <div class="clearfix"></div>
+	            </div>
+	            <div class="clearfix"></div>
+	        </div>        
+	    </div>	
+	<?php 
+	}?>	
+</div>

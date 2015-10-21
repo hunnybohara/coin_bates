@@ -1,0 +1,131 @@
+<?php 
+$this->append('script');
+?>
+<script type="text/javascript">
+    jQuery().ready(function(){
+        jQuery('#signup-success-btn').click(function(){
+            location.reload();
+        })
+        jQuery('#reg-form').submit(function(event){
+            
+            jQuery.ajax({
+                url:jQuery('#reg-form').attr('action'),
+                method:'POST',
+                dataType:'json',
+                beforeSend:function(){
+                    jQuery('#signup-btn i').show();
+                },
+                data:jQuery('#reg-form').serialize(),
+                success:function(data){
+                    switch(data.status){
+                        case 'success':
+                            jQuery('#cbts-signup-modal').modal('hide')
+                            jQuery('#cbts-signup-success-modal').modal('show');
+                            jQuery('#cbts-signup-success-modal span.name').html(data.user.first_name + " " + data.user.last_name);
+                            break;
+                        case 'validationError':
+                            jQuery.each(data.errorList,function(field,message){
+                                errorMessage = '<p class="help-block with-errors">' + message + '<p>';
+                                jQuery('#signup_'+field).closest('.form-group').addClass('has-error').append(errorMessage);
+                            })
+                            break;
+                    }
+                },
+                complete:function(){
+                    jQuery('#signup-btn i').hide();
+                }
+            });
+            
+            event.preventDefault();
+        });
+    });
+</script>
+<?php
+$this->end();
+?>
+<!-- REG form -->
+<div id='cbts-signup-modal' class="modal fade login-modal-sm reg-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header-top">
+                <div class="model-title-main">Sign up</div>
+            </div>
+            <div class="model-midd-content">
+                <a href="#" class="facebook-login">Sign up with Facebook</a>    
+                <a href="#" class="gplus-login">Sign up with Google+</a>
+                <div class="or-space">
+                    <span>or</span>
+                </div>
+                <a href="#" class="email-login">Sign up with Email</a>
+                <div class="login-form-main">
+                    <?php 
+                        echo $this->Form->create('User',[
+                            'id'            => 'reg-form',
+                            'name'          => 'reg-form',
+                            'class'         => 'reg-form',
+                            'autocomplete'  => 'off',
+                            'url'           => ['controller' => 'users','action' => 'signup'],
+                            
+                        ]);
+                    ?>
+                        <div class="form-group">
+                            <?= $this->Form->text('full_name',[
+                                'id'                => 'signup_full_name',
+                                'class'             => 'form-control log-input',
+                                'placeholder'       => __('Your Name'),
+                                'autocomplete'      => 'off',
+                            ]); 
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <?= $this->Form->text('email',[
+                                'id'                => 'signup_email',
+                                'class'             => 'form-control log-input',
+                                'placeholder'       => __('Email Address'),
+                                'autocomplete'      => 'off',
+                            ]); 
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <?= $this->Form->password('password',[
+                                'id'                => 'signup_password',
+                                'class'             => 'form-control log-input',
+                                'placeholder'       => __('Password'),
+                                'autocomplete'      => 'off',
+                            ]); 
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <?= $this->Form->text('bitcoin_address',[
+                                'class'             => 'form-control log-input',
+                                'placeholder'       => __('Bitcoin Address (Optional)'),
+                                'autocomplete'      => 'off',
+                            ]); 
+                            ?>
+                        </div>
+                        <button class="login-btn-form" id="signup-btn" type="submit">
+                            <i class="loading fa fa-spinner fa-spin"></i> <?= __('Sign Up')?>
+                        </button>
+                        <div class="dont-account">Already a Coinbates member? <a href="#">Log in</a></div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id='cbts-signup-success-modal' class="modal fade login-modal-sm reg-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header-top">
+                <div class="model-title-main"><?= __('Registered Successfully !')?></div>
+            </div>
+            <div class="model-midd-content">
+                <p>Hey <span class='name'></span> You have been Sign up Successfully... Please Check your Email And Verify to get Strted.</p>
+            </div>
+            <button class="login-btn-form" id="signup-success-btn" type="submit">
+                 <?= __('Get Started Now')?>
+            </button>
+        </div>
+    </div>
+</div>
